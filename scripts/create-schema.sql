@@ -1,11 +1,16 @@
 CREATE TABLE users (
-                       id INT AUTO_INCREMENT PRIMARY KEY,
-                       name VARCHAR(50)
+                       id CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+                       name VARCHAR(50),
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       PRIMARY KEY (id)
 );
 
 CREATE TABLE cars (
-                      id INT AUTO_INCREMENT PRIMARY KEY,
+                      id CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
                       model VARCHAR(50),
-                      ownerId INT,
-                      FOREIGN KEY (ownerId) REFERENCES users(id)
+                      owner_id CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                      FOREIGN KEY (owner_id) REFERENCES users(id)
 );
