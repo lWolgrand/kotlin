@@ -4,6 +4,7 @@ import org.example.DB.ConnectionInterface
 import org.example.config.Connection
 import org.example.domain.User
 import org.example.storage.interfaces.user.UserRepositoryInterface
+import java.sql.SQLException
 import java.util.*
 import java.util.logging.Logger
 
@@ -12,34 +13,25 @@ class UserRepository: UserRepositoryInterface {
     private val conn: ConnectionInterface = Connection()
     private val logger = Logger.getLogger(UserRepository::class.java.name)
 
-
-
     override fun get(): List<User> {
 
         val users = mutableListOf<User>()
 
-        conn.connect().use { connection ->
-
-            val statement = connection.prepareStatement("SELECT * FROM crud.users")
-
-            val resultSet = statement.executeQuery()
-
-            while (resultSet.next()) {
-
-                val userIdBytes = resultSet.getBytes("id")
-
-                val userId = UUID.nameUUIDFromBytes(userIdBytes)
-
-                val userName = resultSet.getString("name")
-
-                val user = User(userId, userName)
-
-                users.add(user)
+        try {
+            conn.connect().use { connection ->
+                val resultSet = connection.prepareStatement("SELECT * FROM crud.users").executeQuery()
+                while (resultSet.next()) {
+                    users.add(User(
+                        id = UUID.nameUUIDFromBytes(resultSet.getBytes("id")),
+                        name = resultSet.getString("name")))
+                }
             }
+
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
-        logger.info("Repository - GET")
-
+        logger.info(" Repository - GET")
 
         return users
     }

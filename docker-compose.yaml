@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   mySQL:
     image: mysql:8.0
     ports:
@@ -14,3 +13,21 @@ services:
       MYSQL_DATABASE: crud
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana:/etc/grafana/provisioning
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
