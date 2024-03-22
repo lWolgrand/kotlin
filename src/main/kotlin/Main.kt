@@ -3,10 +3,18 @@ package org.example
 import io.javalin.Javalin
 import org.example.DB.ConnectionInterface
 import org.example.config.Connection
+import org.example.router.user.UserRouter
+
 fun main() {
 
     val app = Javalin.create().start(7070)
 
+    val userRouter = UserRouter()
+
+    userRouter.get(app)
+
+
+    //teste de conexão. remover
     app.get("/connection") { ctx ->
 
        try {
@@ -27,37 +35,6 @@ fun main() {
 
     }
 
-    app.get("/usuarios") { ctx ->
 
-        try {
-
-            val conn: ConnectionInterface = Connection()
-
-            conn.connect().use { connection ->
-
-                val statement = connection.createStatement()
-
-                val resultSet = statement.executeQuery("SELECT * FROM users")
-
-                val users = mutableListOf<String>()
-
-                while (resultSet.next()) {
-
-                    val userId = resultSet.getInt("id")
-
-                    val name = resultSet.getString("name")
-
-                    users.add("id: $userId, Name: $name")
-                }
-                ctx.json(users)
-            }
-
-        } catch (e: Exception) {
-
-            ctx.status(500).result("Message:  ${e.message}")
-
-        }
-
-    }
 
 }
