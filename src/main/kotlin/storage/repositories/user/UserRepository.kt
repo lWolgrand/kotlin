@@ -4,6 +4,7 @@ import org.example.DB.ConnectionInterface
 import org.example.config.Connection
 import org.example.domain.User
 import org.example.storage.interfaces.user.UserRepositoryInterface
+import java.util.*
 import java.util.logging.Logger
 
 class UserRepository: UserRepositoryInterface {
@@ -25,7 +26,9 @@ class UserRepository: UserRepositoryInterface {
 
             while (resultSet.next()) {
 
-                val userId = resultSet.getInt("id")
+                val userIdBytes = resultSet.getBytes("id")
+
+                val userId = UUID.nameUUIDFromBytes(userIdBytes)
 
                 val userName = resultSet.getString("name")
 

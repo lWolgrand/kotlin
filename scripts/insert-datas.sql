@@ -1,10 +1,12 @@
-INSERT INTO users (id, name) VALUES
-                                 ('4a6101b4-6a89-11ec-8c9c-0242ac130003', 'Jones'),
-                                 ('5517d518-6a89-11ec-8c9c-0242ac130003', 'Maria'),
-                                 ('6ab05d08-6a89-11ec-8c9c-0242ac130003', 'Pedro');
+use crud;
 
-INSERT INTO cars (id, model, owner_id) VALUES
-                                           ('79354e4e-6a89-11ec-8c9c-0242ac130003', 'Toyota Corolla', (SELECT id FROM users WHERE name = 'Jones')),
-                                           ('5517d518-6a89-11ec-8c9c-0242ac130003', 'Honda Civic', (SELECT id FROM users WHERE name = 'Maria')),
-                                           ('6ab05d08-6a89-11ec-8c9c-0242ac130003', 'Ford Focus', (SELECT id FROM users WHERE name = 'Pedro')),
-                                           ('79354e4e-6a89-11ec-8c9c-0242ac130003', 'Volkswagen Golf', (SELECT id FROM users WHERE name = 'Jones'));
+INSERT INTO crud.users (id, name) VALUES
+                             (UUID_TO_BIN(UUID()), 'Jones'),
+                             (UUID_TO_BIN(UUID()), 'Maria'),
+                             (UUID_TO_BIN(UUID()), 'Pedro');
+
+INSERT INTO crud.cars (id, model, owner_id) VALUES
+                                           (UUID_TO_BIN(UUID()), 'Toyota Corolla', (SELECT id FROM crud.users WHERE name = 'Jones')),
+                                           (UUID_TO_BIN(UUID()), 'Honda Civic', (SELECT id FROM crud.users WHERE name = 'Maria')),
+                                           (UUID_TO_BIN(UUID()), 'Ford Focus', (SELECT id FROM crud.users WHERE name = 'Pedro')),
+                                           (UUID_TO_BIN(UUID()), 'Volkswagen Golf', (SELECT id FROM crud.users WHERE name = 'Jones'));
