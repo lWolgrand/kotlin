@@ -1,4 +1,4 @@
-package org.example.DB
+package client_service.db
 
 import java.sql.Connection
 

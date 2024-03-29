@@ -7,11 +7,12 @@ import java.util.logging.Logger
 class UserService {
 
     fun get(): List<User> {
+        Logger.getLogger(UserService::class.java.name).info(" Service - GET")
         return UserRepository().get()
     }
 
     fun create(name: String, surname: String, email: String, birthdate: String): User {
-        Logger.getLogger(UserRepository::class.java.name).info(" Service - CREATE")
+        Logger.getLogger(UserService::class.java.name).info(" Service - CREATE")
         return UserRepository().create(name, surname, email, birthdate)
     }
 }

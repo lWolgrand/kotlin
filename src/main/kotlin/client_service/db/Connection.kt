@@ -1,6 +1,5 @@
-package org.example.config
+package client_service.db
 
-import org.example.DB.ConnectionInterface
 import java.sql.Connection
 import java.sql.DriverManager
 
